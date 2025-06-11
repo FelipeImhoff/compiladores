@@ -1,86 +1,175 @@
-# Projeto de Analisador Sintático com Jison (Etapas 1 e 2)
+# Projeto de Analisador Sintático com Jison
 
-Este projeto implementa um analisador léxico e sintático utilizando Jison, capaz de reconhecer:
+Este projeto implementa um analisador léxico e sintático completo utilizando Jison, capaz de reconhecer a sintaxe básica de uma linguagem estilo C, incluindo:
 
-- 📌 Declarações de variáveis (`int`, `float`, `char`);
-- 🧮 Comandos matemáticos com operadores de atribuição;
-- ✅ Comandos condicionais `if-else` com operadores relacionais;
-- 🔁 Comandos `switch-case` com múltiplos `case` e `default` opcional.
+- 📌 Declarações de variáveis (`int`, `float`, `char`)
+- 🧮 Expressões matemáticas e operadores de atribuição
+- 🚦 Estruturas condicionais (`if-else`, `switch-case`)
+- 🔄 Estruturas de repetição (`while`, `for`)
+- 🔄 Operadores de incremento/decremento (`++`, `--`)
 
 ---
 
-## 📂 Estrutura
+## 📂 Estrutura do Projeto
 
-- `index.jison`: Arquivo principal contendo a gramática das etapas 1 e 2.
-- `test.js`: Script de testes com código de entrada simulando um programa em estilo C.
-- `README.md`: Este arquivo.
+- `index.jison`: Arquivo principal contendo a gramática completa
+- `test.js`: Script de testes com exemplos de código válido
+- `README.md`: Este arquivo de documentação
 
 ---
 
 ## ▶️ Como Executar
 
-1. Instale o Jison (caso ainda não tenha):
+1. Instale o Jison globalmente (caso ainda não tenha):
 
-   ```bash
-   npm install -g jison
-   ```
+```bash
+npm install -g jison
+```
 
-2. Gere o parser:
+2. Compile o analisador sintático:
 
-   ```bash
-   jison index.jison
-   ```
+```bash
+jison index.jison -o index.js
+```
 
-   Isso vai gerar um arquivo `index.js`.
+3. Execute os testes:
 
-3. Execute o teste:
-
-   ```bash
-   node test.js
-   ```
+```bash
+node test.js
+```
 
 ---
 
-## 🧪 Exemplo de Código Válido
+## 🛠️ Funcionalidades Implementadas
+
+### Declarações de Variáveis
 
 ```c
-int a;
-float b = 3.14;
-char letra = 'x';
+int i;
+float total = 0;
+char letra = 'a';
+```
 
-if (a == 10) {
-  a = a + 1;
+### Operadores Matemáticos
+
+```c
+i = 0;
+total = total + 1.5;
+i += 2;
+total *= 3.0;
+```
+
+### Estruturas Condicionais
+
+```c
+// IF-ELSE
+if (i < 5) {
+  total = total + 2.0;
 } else {
-  a = a - 1;
+  total = total - 1.0;
 }
 
-switch (a) {
-  case 1: {
-    b += 2.5;
+// SWITCH-CASE
+switch(i) {
+  case 0: {
+    total = total + 10.0;
     break;
   }
-  case 2: case 3: {
-    b *= 1.5;
+  case 1: {
+    total = total + 20.0;
     break;
   }
   default: {
-    b = 0;
+    total = total + 30.0;
   }
+}
+```
+
+### Estruturas de Repetição
+
+```c
+// WHILE loop
+while (i < 3) {
+  total = total + 1.5;
+  i++;
+}
+
+// FOR loop
+for (i = 0; i < 5; i++) {
+  total += 2;
+}
+```
+
+### Operadores Especiais
+
+```c
+i++;      // incremento
+total--;  // decremento
+i += 2;   // atribuição com adição
+total *= 3.0; // atribuição com multiplicação
+```
+
+---
+
+## 🧪 Exemplo de Código Válido Completo
+
+```c
+int main() {
+  int counter = 0;
+  float result = 1.0;
+
+  // Loop while
+  while(counter < 10) {
+    result *= 1.5;
+    counter++;
+
+    // Condicional if
+    if(result > 10.0) {
+      break;
+    }
+  }
+
+  // Loop for
+  for(int i = 0; i < 5; i++) {
+    result -= 0.5;
+  }
+
+  // Switch case
+  switch(counter) {
+    case 5: {
+      result /= 2.0;
+      break;
+    }
+    default: {
+      result += 1.0;
+    }
+  }
+
+  return 0;
 }
 ```
 
 ---
 
-## ℹ️ Observações
+## 📚 Especificações Técnicas
 
-- O `else` e o `default` são opcionais, assim como na linguagem C.
-- Cada comando termina obrigatoriamente com ponto-e-vírgula (`;`).
-- Variáveis devem ser declaradas com identificadores válidos (`[a-zA-Z_][a-zA-Z0-9_]*`).
-- Expressões nas condições podem envolver comparações entre variáveis ou valores.
+### Operadores Suportados
 
----
+- **Aritméticos**: `+`, `-`, `*`, `/`
+- **Relacionais**: `==`, `!=`, `<`, `<=`, `>`, `>=`
+- **Atribuição**: `=`, `+=`, `-=`, `*=`, `/=`
+- **Incremento/Decremento**: `++`, `--`
 
-## ✅ Requisitos Atendidos
+### Estruturas Suportadas
 
-- Etapa 1: Declarações, comandos matemáticos e operadores;
-- Etapa 2: Reconhecimento de `if`, `else`, `switch`, `case`, `default` com blocos de comandos.
+- Blocos de código com `{ }`
+- Comandos terminados com `;`
+- Comentários de linha (`//`) e bloco (`/* */`)
+
+### Regras Léxicas
+
+- Identificadores: `[a-zA-Z_][a-zA-Z0-9_]*`
+- Números inteiros: `[0-9]+`
+- Números decimais: `[0-9]+\.[0-9]+`
+- Caracteres: `'[^\'\\]'`
+- Strings: `"[^\"\\]*"`
